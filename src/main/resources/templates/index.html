@@ -67,29 +67,10 @@
                 let table = document.getElementById('1')
                 let tBody = table.querySelector('tbody')
                 const count = tBody.querySelectorAll('tr').length;
-                document.write('Количество конференций: ' + count)
+                document.write('Количество клиентов всего: ' + count)
             }
 
             getRowsColumn()
-        </script>
-    </p>
-    <p class="text-white">
-        <script src="https://momentjs.com/downloads/moment.js"></script>
-        <script type="text/javascript">
-            function count() {
-                let table = document.getElementById('1')
-                let tBody = table.querySelector('tbody')
-                let ths1 = tBody.querySelectorAll('th')
-                let ths = tBody.querySelectorAll('tr')
-                let allCount = 0;
-                for (let i = 1; i <= ths1.length - 2; i++) {
-                    if (ths1[i].innerText.slice(0, 4) + ths1[i].innerText.slice(5, 7) + ths1[i].innerText.slice(8, 10) < moment().format('YYYY-MM-DD').slice(0, 4) + moment().format('YYYY-MM-DD').slice(5, 7) + moment().format('YYYY-MM-DD').slice(8, 10)) {
-                        allCount++;
-                    }
-                }
-                document.write('Конференций проведено: ' + allCount)
-            }
-            count()
         </script>
     </p>
     <blockquote class="blockquote text-center">
@@ -106,8 +87,33 @@
             </button>
         </a>
     </blockquote>
+    <form name="form2" style="text-align: center;">
+        <p style="text-align: center; color: aliceblue">Записей за день: </p>
+        <input type="date" name="doa1" onchange="display2()">
+        <p class="asd2" style="color: aliceblue"></p>
+        <script type="text/javascript">
+            let d1;
+            function display2() {
+                d1 = form2.doa1.value;
+                let summ2 = 0;
+                let table1 = document.getElementById('1')
+                let tBody1 = table1.querySelector('tbody')
+                let ths2 = tBody1.querySelectorAll('th')
+                for (let i = 2; i <= ths2.length - 2; i+=5) {
+                    let datePast = d1.slice(0, 4) + d1.slice(5, 7) + d1.slice(8, 10)
+                    let dateNow =ths2[i].innerText.slice(0, 4) + ths2[i].innerText.slice(5, 7) + ths2[i].innerText.slice(8, 10)
+                    if (datePast === dateNow) {
+                        summ2++;
+                    }
+                }
+                document.querySelector('.asd2').innerHTML = summ2;
+            }
+
+        </script>
+    </form>
+
     <form name="form1" style="text-align: center;">
-        <p style="text-align: center; color: aliceblue">Среднее количество конференций в день: </p>
+        <p style="text-align: center; color: aliceblue">Среднее количество клиентов в день: </p>
         <input type="month" name="doa" onchange="display()">
         <p class="asd" style="color: aliceblue"></p>
         <script type="text/javascript">
@@ -119,8 +125,10 @@
                 let table = document.getElementById('1')
                 let tBody = table.querySelector('tbody')
                 let ths1 = tBody.querySelectorAll('th')
-                for (let i = 1; i <= ths1.length - 2; i++) {
-                    if (d.slice(0, 4) + d.slice(5, 7) === (ths1[i].innerText.slice(0, 4) + ths1[i].innerText.slice(5, 7)))
+                for (let i = 2; i <= ths1.length - 2; i+=5) {
+                    let dateNew = d.slice(0, 4) + d.slice(5, 7);
+                    let datePast = ths1[i].innerText.slice(0, 4) + ths1[i].innerText.slice(5, 7);
+                    if (datePast === dateNew)
                         summ++;
                 }
                 d = d.split("-");
@@ -165,9 +173,9 @@
                         break;
                 }
                 if (summ === 0) {
-                    document.querySelector('.asd').innerHTML="0";
+                    document.querySelector('.asd').innerHTML = "0";
                 } else {
-                    document.querySelector('.asd').innerHTML=summ / q;
+                    document.querySelector('.asd').innerHTML = summ / q;
                 }
             }
 
